@@ -1,4 +1,8 @@
-package com.mycompany.useraccount;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package user.account;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
@@ -19,7 +23,7 @@ File file;
     }
     
 //adds user to json file
-public void saveUser(List<User> users){
+public void saveUsers(List<User> users){
     
 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -33,7 +37,6 @@ if(!file.exists()){
     }
 
 }
-
 
     try ( FileWriter writer=new FileWriter(file))
     {

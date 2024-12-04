@@ -1,8 +1,8 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-
-package com.mycompany.useraccount;
+package user.account;
 
 /**
  *
@@ -10,16 +10,11 @@ package com.mycompany.useraccount;
  */
 public class UserAccount {
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        User user = new User(
-            "12345", 
-            "user@example.com", 
-            "username", 
-            "securePassword123", 
-            "2000-01-01", 
-            "offline"
-        );
-
-        System.out.println("Email: " + user.getEmail());
-        System.out.println("Hashed Password: " + user.getPassword());
-    }}
+        // TODO code application logic here
+    }
+    
+}

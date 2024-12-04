@@ -1,5 +1,11 @@
-package com.mycompany.useraccount;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package user.account;
 
+
+import java.io.File;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.logging.Level;
@@ -8,17 +14,20 @@ import java.util.logging.Logger;
 
 public class Login {
     String email,password;
-     List<User> users;
-    userDatabase db;
-    public Login(String email, String password, List<User> users,userDatabase db) {
+    File file;
+    public Login(String email, String password,File file) {
         this.email = email;
         this.password = password;
-        this.users = users;
-        this.db=db;
+        this.file=file;
     }
      
      public boolean loggin(){
       
+         //loads the users from the gson file
+           userDatabase db= new   userDatabase (file);
+           List<User> users= db.loadUsers();
+           
+           
      for(User u:users){
    if( u.getEmail().equals(email)){
        try { 
@@ -28,18 +37,21 @@ public class Login {
               u.setStatus("online");
                System.out.println("Login successful!");
 
-               db.saveUser(users);
-               
+               db.saveUsers(users);
+             
            return true;} else {
             System.out.println("Incorrect password");
           return false;  
            }
        } catch (NoSuchAlgorithmException ex) {
-           Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Error in password hashing", ex);
+             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, "Error in password hashing", ex);
+                    return false;
        }
      }
-System.out.println("Email not found");
-     } return false;
+
+     }
+     System.out.println("Email not found");
+     return false;
  
      }
      
