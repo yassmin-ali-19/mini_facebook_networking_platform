@@ -1,23 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package user.account;
 
-
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class User {
-   private String userId, 
-           email ,
-           username,
-           password, dateOfBirth;
-   private String status;
+    private String userId;
+    private String email;
+    private String username;
+    private String password;
+    private String dateOfBirth;
+    private String status;
 
-  
+    private List<String> friends; // IDs of friends
+    private List<String> friendRequests; // IDs of pending friend requests
+    private List<String> blockedUsers; // IDs of blocked users
+
     public User(String userId, String email, String username, String password, String dateOfBirth, String status) {
         this.userId = userId;
         this.email = email;
@@ -25,8 +25,13 @@ public class User {
         this.setPassword(password); // Automatically hash the password
         this.dateOfBirth = dateOfBirth;
         this.status = status;
+
+        this.friends = new ArrayList<>();
+        this.friendRequests = new ArrayList<>();
+        this.blockedUsers = new ArrayList<>();
     }
 
+    // Getters and setters
     public String getUserId() {
         return userId;
     }
@@ -54,22 +59,20 @@ public class User {
     public String getPassword() {
         return password;
     }
-    
-    
-// Hash password then set it
+
     public void setPassword(String password) {
-     try {
+        try {
             this.password = passwordHasher.hasher(password); // Hash the password
         } catch (NoSuchAlgorithmException e) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, "Password hashing failed", e);
         }
     }
 
-    public  String getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth( String dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -81,4 +84,15 @@ public class User {
         this.status = status;
     }
 
+    public List<String> getFriends() {
+        return friends;
+    }
+
+    public List<String> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public List<String> getBlockedUsers() {
+        return blockedUsers;
+    }
 }
