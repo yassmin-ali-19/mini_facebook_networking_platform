@@ -4,17 +4,13 @@
  */
 package backend;
 
-/**
- *
- * @author ASUS
- */
+import FrontEnd.ProfileManagment;
+
 public class Backend {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        ProfileManagment paint = new ProfileManagment();
+        paint.show();
     }
-    
+
 }
