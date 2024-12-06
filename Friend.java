@@ -18,8 +18,9 @@ public class Friend {
         this.file = file;
     }
 
-    // Send a friend request
-    public boolean sendFriendRequest() {
+    
+    
+     public boolean sendFriendRequest() {
         if (friend.getBlockedUsers().contains(u.getUserId()) || u.getBlockedUsers().contains(friend.getUserId())) 
         {
 //            System.out.println("User is blocked. Cannot send request.");
@@ -103,20 +104,22 @@ return false;
    }
    
    
-public static List<User> suggestions(File file,User u){
+public List<User> suggestions() {
+    userDatabase db = new userDatabase(file);
+    List<User> users = db.loadUsers();
+    List<User> sug = new ArrayList<>();
 
+    for (User rec : users) {
+        if (!rec.getUserId().equals(u.getUserId()) // Exclude self
+                && !u.getFriends().contains(rec.getUserId()) // Not already a friend
+                && !u.getBlockedUsers().contains(rec.getUserId()) // Not blocked by the user
+                && !rec.getBlockedUsers().contains(u.getUserId())) { // Not blocked by them
+            sug.add(rec);
+        }
+    }
+    return sug;
+}
 
-  userDatabase  db = new userDatabase(file);
-       List<User> users = db.loadUsers();
-         
-        List<User> sug =new ArrayList<>();
-       //a loop to see relation 
-      for(User rec:users){
-       if(!u.getFriends().contains(rec.getUserId())|| !u.getBlockedUsers().contains(rec.getUserId()) 
-               || !rec.getBlockedUsers().contains(u.getUserId())  ) 
-       {      sug.add(rec);
-       }   }   
- return sug;   }
 
 
  // Save the updated user list to the database
