@@ -57,7 +57,7 @@ public class UserAccount {
 
         // Test friend suggestions for user1 (will suggest non-friends, non-blocked users)
         System.out.println("Getting Friend Suggestions...");
-        List<User> suggestions = Friend.suggestions(file, user1);
+        List<User> suggestions = friendManager.suggestions(); // Get suggestions
         System.out.println("Suggested Friends for " + user1.getUsername() + ":");
         for (User suggestion : suggestions) {
             System.out.println(suggestion.getUsername());

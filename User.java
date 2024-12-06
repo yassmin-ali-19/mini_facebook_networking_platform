@@ -17,6 +17,8 @@ public class User {
     private List<String> friends; // IDs of friends
     private List<String> friendRequests; // IDs of pending friend requests
     private List<String> blockedUsers; // IDs of blocked users
+    private List<String> suggested;   // IDs of suggested users
+
 
     public User(String userId, String email, String username, String password, String dateOfBirth, String status) {
         this.userId = userId;
@@ -95,4 +97,9 @@ public class User {
     public List<String> getBlockedUsers() {
         return blockedUsers;
     }
+
+    public List<String> getSuggested() {
+        return suggested;
+    }
+    
 }
