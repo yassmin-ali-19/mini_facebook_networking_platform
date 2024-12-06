@@ -1,6 +1,6 @@
 
 
-package user.account.friendManagement;
+package friend.manegment;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,43 +19,47 @@ public class Friend {
     }
 
     // Send a friend request
-    public void sendFriendRequest() {
+    public boolean sendFriendRequest() {
         if (friend.getBlockedUsers().contains(u.getUserId()) || u.getBlockedUsers().contains(friend.getUserId())) 
         {
-            System.out.println("User is blocked. Cannot send request.");
-            return;
-        }
-
-        if (u.getFriends().contains(friend.getUserId())) {
-            System.out.println("Already friends.");
-            return;
-        }
-
-        if (friend.getFriendRequests().contains(u.getUserId())) {
-            System.out.println("Friend request already sent.");
-            return;
-        }
-         if (u.getFriendRequests().contains(friend.getUserId())) {
-             u.getFriends().add(friend.getUserId());
-            System.out.println("Accepted their request!");
-            return;
-        }
-        
-
-      friend.getFriendRequests().add(u.getUserId());
+//            System.out.println("User is blocked. Cannot send request.");
+            friend.getFriendRequests().add(u.getUserId());
  
       saveUsers();
-        System.out.println("Friend request sent.");
+      return true;
+        }
+
+//        if (u.getFriends().contains(friend.getUserId())) {
+////            System.out.println("Already friends.");
+//            return false;
+//        }
+
+        if (friend.getFriendRequests().contains(u.getUserId())||u.getFriends().contains(friend.getUserId())) {
+//            System.out.println("Friend request already sent.");
+            return false;
+        }
+////         if (u.getFriendRequests().contains(friend.getUserId())) {
+////             u.getFriends().add(friend.getUserId());
+////            System.out.println("Accepted their request!");
+////            return;
+//        }
+        
+
+//      friend.getFriendRequests().add(u.getUserId());
+// 
+//      saveUsers();
+//        
+return false;
     }
     
     
     
     
-    public void blocking(){
+    public boolean blocking(){
         if (friend.getBlockedUsers().contains(u.getUserId()) || u.getBlockedUsers().contains(friend.getUserId())) 
         {
-            System.out.println("User already blocked");
-            return;
+//            System.out.println("User already blocked");
+            return false;
         }
         u.getBlockedUsers().add(friend.getUserId());
         u.getFriendRequests().remove(friend.getUserId());
@@ -63,37 +67,39 @@ public class Friend {
         friend.getFriendRequests().remove(u.getUserId());
         friend.getFriends().remove(u.getUserId());
              saveUsers();   
-        System.out.println("User blocked");
-        
+//        System.out.println("User blocked");
+        return true;
            }
     
-    public void accept(){
+    public boolean accept(){
     
      if(u.getFriendRequests().contains(friend.getUserId())){
           u.getFriends().add(friend.getUserId());
-            System.out.println("Accepted friend request!");
-          System.out.println("Friend added!");
+//            System.out.println("Accepted friend request!");
+//          System.out.println("Friend added!");
           
           u.getFriendRequests().remove(friend.getUserId());
           friend.getFriends().add(u.getUserId());
           saveUsers();
-          return;
+          return true;
     }  
      
-     System.out.println("No friend request found.");
+//     System.out.println("No friend request found.");
+return false;
     
     }
     
-   public void remove(){
+   public boolean remove(){
     
       if(u.getFriendRequests().contains(friend.getUserId())){
 
           u.getFriendRequests().remove(friend.getUserId());
           
-            System.out.println("Removed request");
+//            System.out.println("Removed request");
 saveUsers();
-          return;}
-    System.out.println("No friend request found.");
+          return true;}
+//    System.out.println("No friend request found.");
+return false;
    }
    
    
@@ -117,7 +123,7 @@ public static List<User> suggestions(File file,User u){
     private void saveUsers() {
         userDatabase db = new userDatabase(file);
         List<User> users = db.loadUsers();
-        db.saveUsers(users);
+        db.saveUser(users);
     }
 
 
