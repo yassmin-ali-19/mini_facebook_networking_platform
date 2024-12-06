@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package user.account;
 
 import com.toedter.calendar.JDateChooser;
@@ -14,15 +10,16 @@ import java.text.SimpleDateFormat;
 
 import static user.account.Sighnin.emailValid;
 import static user.account.Sighnin.emailexist;
+import user.account.friendManagement.NewJFrame;
 
 
 public class signinWindow extends JFrame {
 
-        private JTextField email, username, password;
-    private JButton signin;
+    private JTextField email, username, password;
+    private JButton signin, returnButton; // Declare return button
     private JDateChooser jDateChooser1;
  
-// Constructor to set up the GUI
+    // Constructor to set up the GUI
     public signinWindow(){
         setTitle("Sign In");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,6 +59,16 @@ public class signinWindow extends JFrame {
             }
         });
 
+        // Create Return Button
+        returnButton = new JButton("Return");
+        returnButton.setForeground(new Color(0, 153, 153));
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                returnActionPerformed(e);  // Go back to NewJFrame
+            }
+        });
+
         // Position components on the panel using GridBagConstraints
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -95,6 +102,10 @@ public class signinWindow extends JFrame {
         gbc.gridy = 4;
         panel.add(signin, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        panel.add(returnButton, gbc);  // Add the Return Button to the layout
+
         // Add panel to the frame
         add(panel, BorderLayout.CENTER);
 
@@ -126,7 +137,6 @@ public class signinWindow extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid Email!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
 
         // Format the date from the DateChooser
         String dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
@@ -136,14 +146,12 @@ public class signinWindow extends JFrame {
         chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile();
 
-           //Makes sure email was not used before
-           
-         if(emailexist(emailText,file)){
-    JOptionPane.showMessageDialog(this, "Email already Exists!", "Error", JOptionPane.ERROR_MESSAGE);
+        // Makes sure email was not used before
+        if(emailexist(emailText, file)){
+            JOptionPane.showMessageDialog(this, "Email already Exists!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
-   }
-         
-         
+        }
+
         // Use the Sighnin class to sign in
         Sighnin sighnin = new Sighnin(emailText, usernameText, passwordText, dateOfBirth, file);
         if (sighnin.signIn()) {
@@ -151,6 +159,14 @@ public class signinWindow extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Sign in failed! Please check your details.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    // Action performed when the Return button is clicked
+    private void returnActionPerformed(ActionEvent evt) {
+        // Open the NewJFrame window
+        NewJFrame newJFrame = new NewJFrame();
+        newJFrame.setVisible(true);
+        dispose();  // Close the current window
     }
 
     // Main method to run the application

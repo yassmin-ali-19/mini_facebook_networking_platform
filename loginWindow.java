@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package user.account;
 
 import java.awt.*;
@@ -9,14 +5,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.File;
 import static user.account.Sighnin.emailValid;
+import user.account.friendManagement.NewJFrame;
 
-
-public class loginWindow  extends JFrame {
+public class loginWindow extends JFrame {
 
     private JTextField email;
     private JPasswordField password;
     private JButton loginButton;
-    private JButton logoutButton;
+    private JButton returnButton; // Declare return button
 
     // Constructor to set up the GUI
     public loginWindow() {
@@ -41,7 +37,7 @@ public class loginWindow  extends JFrame {
         passwordLabel.setForeground(Color.WHITE);
         password = new JPasswordField(20);
 
-        // Create login and logout buttons
+        // Create login button
         loginButton = new JButton("Login");
         loginButton.setForeground(new Color(0, 153, 153));
         loginButton.addActionListener(new ActionListener() {
@@ -51,12 +47,13 @@ public class loginWindow  extends JFrame {
             }
         });
 
-        logoutButton = new JButton("Logout");
-        logoutButton.setForeground(new Color(0, 153, 153));
-        logoutButton.addActionListener(new ActionListener() {
+        // Create return button
+        returnButton = new JButton("Return");
+        returnButton.setForeground(new Color(0, 153, 153));
+        returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logoutActionPerformed();
+                returnActionPerformed(); // Go back to NewJFrame
             }
         });
 
@@ -80,7 +77,7 @@ public class loginWindow  extends JFrame {
         panel.add(loginButton, gbc);
 
         gbc.gridx = 1;
-        panel.add(logoutButton, gbc);
+        panel.add(returnButton, gbc); // Add the Return Button to the layout
 
         // Add panel to the frame
         add(panel, BorderLayout.CENTER);
@@ -99,17 +96,17 @@ public class loginWindow  extends JFrame {
             JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if(!emailValid(emailText)){
-         JOptionPane.showMessageDialog(this, "Invalid Email!", "Error", JOptionPane.ERROR_MESSAGE);
+
+        if (!emailValid(emailText)) {
+            JOptionPane.showMessageDialog(this, "Invalid Email!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+
         // Let the user choose a file (e.g., database)
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         File file = chooser.getSelectedFile();
 
-      
         // Perform login
         Login loginmer = new Login(emailText, passwordText, file);
         if (loginmer.loggin()) {
@@ -119,24 +116,12 @@ public class loginWindow  extends JFrame {
         }
     }
 
-    // Action performed when logout button is clicked
-    private void logoutActionPerformed() {
-        String emailText = email.getText().trim();
-
-        if (emailText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Email field is required!", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        // Let the user choose a file (e.g., database)
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        File file = chooser.getSelectedFile();
-
-      
-        // Perform logout
-        Logout lg = new Logout(emailText,file);
-        lg.logout();
+    // Action performed when the Return button is clicked
+    private void returnActionPerformed() {
+        // Open the NewJFrame window
+        NewJFrame newJFrame = new NewJFrame();
+        newJFrame.setVisible(true);
+        dispose();  // Close the current window
     }
 
     // Main method to run the application
