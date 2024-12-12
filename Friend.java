@@ -1,5 +1,4 @@
 
-
 package user.account.friendManagement;
 
 import java.io.File;
@@ -20,29 +19,29 @@ public class Friend {
 
     // Send a friend request
     public void sendFriendRequest() {
-        if (friend.getBlockedUsers().contains(u.getUserId()) || u.getBlockedUsers().contains(friend.getUserId())) 
+        if (friend.getBlockedUsers().contains(u) || u.getBlockedUsers().contains(friend)) 
         {
             System.out.println("User is blocked. Cannot send request.");
             return;
         }
 
-        if (u.getFriends().contains(friend.getUserId())) {
+        if (u.getFriends().contains(friend)) {
             System.out.println("Already friends.");
             return;
         }
 
-        if (friend.getFriendRequests().contains(u.getUserId())) {
+        if (friend.getFriendRequests().contains(u)) {
             System.out.println("Friend request already sent.");
             return;
         }
-         if (u.getFriendRequests().contains(friend.getUserId())) {
-             u.getFriends().add(friend.getUserId());
+         if (u.getFriendRequests().contains(friend)) {
+             u.getFriends().add(friend);
             System.out.println("Accepted their request!");
             return;
         }
         
 
-      friend.getFriendRequests().add(u.getUserId());
+      friend.getFriendRequests().add(u);
  
       saveUsers();
         System.out.println("Friend request sent.");
@@ -52,16 +51,16 @@ public class Friend {
     
     
     public void blocking(){
-        if (friend.getBlockedUsers().contains(u.getUserId()) || u.getBlockedUsers().contains(friend.getUserId())) 
+        if (friend.getBlockedUsers().contains(u) || u.getBlockedUsers().contains(friend)) 
         {
             System.out.println("User already blocked");
             return;
         }
-        u.getBlockedUsers().add(friend.getUserId());
-        u.getFriendRequests().remove(friend.getUserId());
-        u.getFriends().remove(friend.getUserId());
-        friend.getFriendRequests().remove(u.getUserId());
-        friend.getFriends().remove(u.getUserId());
+        u.getBlockedUsers().add(friend);
+        u.getFriendRequests().remove(friend);
+        u.getFriends().remove(friend);
+        friend.getFriendRequests().remove(u);
+        friend.getFriends().remove(u);
              saveUsers();   
         System.out.println("User blocked");
         
@@ -69,13 +68,13 @@ public class Friend {
     
     public void accept(){
     
-     if(u.getFriendRequests().contains(friend.getUserId())){
-          u.getFriends().add(friend.getUserId());
+     if(u.getFriendRequests().contains(friend)){
+          u.getFriends().add(friend);
             System.out.println("Accepted friend request!");
           System.out.println("Friend added!");
           
-          u.getFriendRequests().remove(friend.getUserId());
-          friend.getFriends().add(u.getUserId());
+          u.getFriendRequests().remove(friend);
+          friend.getFriends().add(u);
           saveUsers();
           return;
     }  
@@ -86,9 +85,9 @@ public class Friend {
     
    public void remove(){
     
-      if(u.getFriendRequests().contains(friend.getUserId())){
+      if(u.getFriendRequests().contains(friend)){
 
-          u.getFriendRequests().remove(friend.getUserId());
+          u.getFriendRequests().remove(friend);
           
             System.out.println("Removed request");
 saveUsers();
@@ -102,10 +101,10 @@ saveUsers();
     List<User> sug = new ArrayList<>();
 
     for (User rec : users) {
-        if (!rec.getUserId().equals(u.getUserId()) // Exclude self
-                && !u.getFriends().contains(rec.getUserId()) // Not already a friend
-                && !u.getBlockedUsers().contains(rec.getUserId()) // Not blocked by the user
-                && !rec.getBlockedUsers().contains(u.getUserId())) { // Not blocked by them
+        if (!rec.equals(u) // Exclude self
+                && !u.getFriends().contains(rec) // Not already a friend
+                && !u.getBlockedUsers().contains(rec) // Not blocked by the user
+                && !rec.getBlockedUsers().contains(u)) { // Not blocked by them
             sug.add(rec);
         }
     }
@@ -119,6 +118,5 @@ saveUsers();
         List<User> users = db.loadUsers();
         db.saveUsers(users);
     }
-
 
 }
