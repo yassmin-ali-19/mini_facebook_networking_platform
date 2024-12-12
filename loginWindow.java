@@ -10,7 +10,7 @@ import user.account.friendManagement.NewJFrame;
 public class loginWindow extends JFrame {
 
     private JTextField email;
-    private JPasswordField password;
+    private JPasswordField password; // Ensures the password is hidden
     private JButton loginButton;
     private JButton returnButton; // Declare return button
 
@@ -35,7 +35,7 @@ public class loginWindow extends JFrame {
 
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setForeground(Color.WHITE);
-        password = new JPasswordField(20);
+        password = new JPasswordField(20); // This ensures the password input is hidden
 
         // Create login button
         loginButton = new JButton("Login");
@@ -90,7 +90,7 @@ public class loginWindow extends JFrame {
     // Action performed when login button is clicked
     private void loginActionPerformed() {
         String emailText = email.getText().trim();
-        String passwordText = new String(password.getPassword()).trim();
+        String passwordText = new String(password.getPassword()).trim(); // Get the password securely
 
         if (emailText.isEmpty() || passwordText.isEmpty()) {
             JOptionPane.showMessageDialog(this, "All fields are required!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -102,10 +102,8 @@ public class loginWindow extends JFrame {
             return;
         }
 
-        // Let the user choose a file (e.g., database)
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        File file = chooser.getSelectedFile();
+        // Use the file for testing
+        File file = new File("jjson.txt");
 
         // Perform login
         Login loginmer = new Login(emailText, passwordText, file);

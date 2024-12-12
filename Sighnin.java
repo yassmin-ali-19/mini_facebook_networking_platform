@@ -57,12 +57,12 @@ public class Sighnin {
          
     return true;
     }
-   public static boolean emailValid(String email){
+ 
+    public static boolean emailValid(String email) {
+    String emailV = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    return Pattern.matches(emailV, email);
+}
     
-        String emailV = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        return Pattern.matches(emailV, email);
-    }
-
    
 public  static boolean  emailexist(String email ,File file){
 
@@ -76,6 +76,7 @@ return true;
              }}
 return false;
              }
+
 
 public  static boolean  usernameexists(String username ,File file){
 

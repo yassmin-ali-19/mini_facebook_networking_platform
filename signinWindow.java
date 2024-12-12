@@ -7,20 +7,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.SimpleDateFormat;
-
 import static user.account.Sighnin.emailValid;
 import static user.account.Sighnin.emailexist;
 import user.account.friendManagement.NewJFrame;
 
-
 public class signinWindow extends JFrame {
 
-    private JTextField email, username, password;
+    private JTextField email, username;
+    private JPasswordField password; // Changed to JPasswordField
     private JButton signin, returnButton; // Declare return button
     private JDateChooser jDateChooser1;
- 
+
     // Constructor to set up the GUI
-    public signinWindow(){
+    public signinWindow() {
         setTitle("Sign In");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -44,7 +43,7 @@ public class signinWindow extends JFrame {
 
         JLabel passwordLabel = new JLabel("Password");
         passwordLabel.setForeground(Color.WHITE);
-        password = new JTextField(20);
+        password = new JPasswordField(20); // Changed to JPasswordField
 
         JLabel dobLabel = new JLabel("Date of Birth");
         dobLabel.setForeground(Color.WHITE);
@@ -89,7 +88,7 @@ public class signinWindow extends JFrame {
         panel.add(passwordLabel, gbc);
 
         gbc.gridx = 1;
-        panel.add(password, gbc);
+        panel.add(password, gbc); // Add JPasswordField
 
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -118,7 +117,7 @@ public class signinWindow extends JFrame {
     private void signinActionPerformed(ActionEvent evt) {
         String emailText = email.getText().trim();
         String usernameText = username.getText().trim();
-        String passwordText = password.getText().trim();
+        String passwordText = new String(password.getPassword()).trim(); // Use getPassword() for JPasswordField
 
         // Validate the inputs
         if (emailText.isEmpty() || usernameText.isEmpty() || passwordText.isEmpty()) {
@@ -141,13 +140,11 @@ public class signinWindow extends JFrame {
         // Format the date from the DateChooser
         String dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").format(jDateChooser1.getDate());
 
-        // Let the user choose the file (e.g., user data file)
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(null);
-        File file = chooser.getSelectedFile();
+        // File where user data is stored
+        File file = new File("jjson.txt");
 
-        // Makes sure email was not used before
-        if(emailexist(emailText, file)){
+        // Ensure the email is unique
+        if (emailexist(emailText, file)) {
             JOptionPane.showMessageDialog(this, "Email already Exists!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }

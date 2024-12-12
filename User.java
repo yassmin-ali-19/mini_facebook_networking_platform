@@ -14,10 +14,10 @@ public class User {
     private String dateOfBirth;
     private String status;
 
-    private List<String> friends; // IDs of friends
-    private List<String> friendRequests; // IDs of pending friend requests
-    private List<String> blockedUsers; // IDs of blocked users
-    private List<String> suggested;   // IDs of suggested users
+    private List<User> friends; // friends
+    private List<User> friendRequests; // pending friend requests
+    private List<User> blockedUsers; //  blocked users
+    private List<User> suggested;   //  suggested users
 
 
     public User(String userId, String email, String username, String password, String dateOfBirth, String status) {
@@ -31,6 +31,22 @@ public class User {
         this.friends = new ArrayList<>();
         this.friendRequests = new ArrayList<>();
         this.blockedUsers = new ArrayList<>();
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public List<User> getFriendRequests() {
+        return friendRequests;
+    }
+
+    public List<User> getBlockedUsers() {
+        return blockedUsers;
+    }
+
+    public List<User> getSuggested() {
+        return suggested;
     }
 
     // Getters and setters
@@ -84,22 +100,6 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
-    }
 
-    public List<String> getFriends() {
-        return friends;
     }
-
-    public List<String> getFriendRequests() {
-        return friendRequests;
-    }
-
-    public List<String> getBlockedUsers() {
-        return blockedUsers;
-    }
-
-    public List<String> getSuggested() {
-        return suggested;
-    }
-    
 }
