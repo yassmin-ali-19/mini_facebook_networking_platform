@@ -1,10 +1,5 @@
+package facebookcheck;
 
-package facebook;
-
-/**
- *
- * @author Elnour Tech
- */
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 

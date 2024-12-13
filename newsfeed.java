@@ -1,13 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package contentcreation;
+package facebookcheck;
 
-import backend.ProfileManagement;
-import facebook.Content;
-import facebook.ContentManager;
-import facebook.Gui;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,24 +11,33 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.JSONException;
-
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.*;
 public class newsfeed extends JFrame {
 
+    private User u,friend;
+    private File file;
     private JTextArea contentArea;
     private JButton postButton;
     private JButton refreshButton;
     private JButton profileButton;
     private JButton showFriendsButton;
     private JButton showFriendSuggestionsButton;
+    private JButton addButton;  // New Button
     private DefaultListModel<String> postListModel;
     private DefaultListModel<String> storyListModel;
     private JList<String> postList;
     private JList<String> storyList;
     private ContentManager contentManager;
 
-    public newsfeed() throws JSONException {
+    public newsfeed() throws JSONException, IOException {
+        // Initialize JFrame properties
         setTitle("News Feed");
-        setSize(1400, 600); 
+        setSize(1400, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -45,14 +47,20 @@ public class newsfeed extends JFrame {
         refreshButton = new JButton("Refresh");
         profileButton = new JButton("Profile");
         showFriendsButton = new JButton("Show Friends");
-        showFriendSuggestionsButton = new JButton("Show Friend Suggestions");
+//        showFriendSuggestionsButton = new JButton("Show Friend Suggestions");
+        addButton = new JButton("add post or story");  // Initialize the new button
 
         postListModel = new DefaultListModel<>();
         storyListModel = new DefaultListModel<>();
         postList = new JList<>(postListModel);
         storyList = new JList<>(storyListModel);
 
-        // Create panels
+        // Set font and size for the new button
+        Font bigFont = new Font("Arial", Font.BOLD, 16);  
+        addButton.setFont(bigFont);
+         addButton.setPreferredSize(new Dimension(200,50));  // Set size of the button
+
+        // Create panels for layout
         JPanel contentPanel = new JPanel(new BorderLayout());
         JPanel postPanel = new JPanel(new BorderLayout());
         JPanel storyPanel = new JPanel(new BorderLayout());
@@ -61,9 +69,9 @@ public class newsfeed extends JFrame {
         // Set up content area for posting
         JPanel postInputPanel = new JPanel();
         postInputPanel.add(new JLabel("What's on your mind?"));
-        postInputPanel.add(postButton);
+        postInputPanel.add(postButton);  // Add the post button to the panel
 
-        contentPanel.add(postInputPanel, BorderLayout.NORTH);
+        contentPanel.add(postInputPanel, BorderLayout.NORTH);  // Add to contentPanel
         contentPanel.add(new JScrollPane(postList), BorderLayout.CENTER);
 
         // Set up post panel
@@ -78,7 +86,7 @@ public class newsfeed extends JFrame {
         add(contentPanel, BorderLayout.NORTH); // Posting section
         add(postPanel, BorderLayout.WEST); // Left panel for posts
         add(storyPanel, BorderLayout.CENTER); // Center panel for stories
-        add(refreshButton, BorderLayout.SOUTH); 
+        add(refreshButton, BorderLayout.SOUTH);
 
         // Initialize ContentManager
         contentManager = new ContentManager();
@@ -87,6 +95,7 @@ public class newsfeed extends JFrame {
         postButton.addActionListener(new PostButtonListener());
         refreshButton.addActionListener(new RefreshButtonListener());
         profileButton.addActionListener(new ProfileButtonListener());
+        addButton.addActionListener(new AddButtonListener());  // Add Action Listener for the new button
 
         // Populate sample data
         populateSampleData();
@@ -97,12 +106,13 @@ public class newsfeed extends JFrame {
 
         // Add the Profile button to the bottom
         bottomPanel.add(profileButton, BorderLayout.EAST);
-        add(bottomPanel, BorderLayout.SOUTH); 
+        add(bottomPanel, BorderLayout.SOUTH);
 
         // Add the "Show Friends" and "Show Friend Suggestions" buttons to the bottom
         JPanel bottomButtonsPanel = new JPanel(new FlowLayout());
         bottomButtonsPanel.add(showFriendsButton);
         bottomButtonsPanel.add(showFriendSuggestionsButton);
+        bottomButtonsPanel.add(addButton);  // Add new button to bottom panel
         add(bottomButtonsPanel, BorderLayout.NORTH);
 
         setVisible(true);
@@ -159,8 +169,11 @@ public class newsfeed extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                new Gui().setVisible(true);
+                System.out.println("Post Button clicked!"); 
+                new Gui().setVisible(true); 
             } catch (JSONException ex) {
+                Logger.getLogger(newsfeed.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
                 Logger.getLogger(newsfeed.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -185,6 +198,36 @@ public class newsfeed extends JFrame {
         }
     }
 
+    private class AddButtonListener implements ActionListener {  // Action for Add New Content Button
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           
+            System.out.println("Add New Content Button clicked!");
+            // Open the Gui window to add a new post or story
+            try {
+                new Gui().setVisible(true);  // Open the Gui window for content creation
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                Logger.getLogger(newsfeed.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    private class showFriendsButton implements ActionListener {  // Action for Add New Content Button
+        @Override
+        public void actionPerformed(ActionEvent e) {
+           
+           new FriendManagementFrame(u,friend,file).setVisible(true);
+            try {
+                new Gui().setVisible(true);  // Open the Gui window for content creation
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            } catch (IOException ex) {
+                Logger.getLogger(newsfeed.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -193,6 +236,8 @@ public class newsfeed extends JFrame {
                     new newsfeed(); 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (IOException ex) {
+                    Logger.getLogger(newsfeed.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package facebook;
+package facebookcheck;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +13,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javax.swing.text.AbstractDocument.Content;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Position;
+import javax.swing.text.Segment;
+import javax.swing.undo.UndoableEdit;
 /**
  *
  * @author Elnour Tech
@@ -49,7 +51,37 @@ private void loadContents() throws JSONException {
 
             String contentType = j.has("contentType") ? j.getString("contentType") : "post"; // Default to "post"
 
-            contents.add(new Content(contentId, authorId, content, image, timestamp, contentType));
+            contents.add(new Content(contentId, authorId, content, image, timestamp, contentType) {
+                @Override
+                public Position createPosition(int offset) throws BadLocationException {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public int length() {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public UndoableEdit insertString(int where, String str) throws BadLocationException {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public UndoableEdit remove(int where, int nitems) throws BadLocationException {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public String getString(int where, int len) throws BadLocationException {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+
+                @Override
+                public void getChars(int where, int len, Segment txt) throws BadLocationException {
+                    throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                }
+            });
         }
     } catch (IOException e) {
         throw new RuntimeException("Could not load contents: " + e.getMessage(), e);
