@@ -6,7 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import org.json.JSONException;
 
 public class Profile extends JFrame {
     private String email;
@@ -64,8 +67,14 @@ public class Profile extends JFrame {
         bioField = new JTextField(20);
         bioField.setText(profile.getBio());
 
-        comboBox = new JComboBox<>(new String[]{"Update Profile Photo", "Update Cover Photo", "Update Bio", "Update Password","friends"});
-        comboBox.addActionListener(e -> handleAction((String) comboBox.getSelectedItem()));
+        comboBox = new JComboBox<>(new String[]{"Update Profile Photo", "Update Cover Photo", "Update Bio", "Update Password","friends","newsfeed"});
+        comboBox.addActionListener(e -> {
+            try {
+                handleAction((String) comboBox.getSelectedItem());
+            } catch (JSONException ex) {
+                Logger.getLogger(Profile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -91,7 +100,7 @@ public class Profile extends JFrame {
         }
     }
 
-    private void handleAction(String action) {
+    private void handleAction(String action) throws JSONException {
         switch (action) {
             case "Update Profile Photo":
                 updateProfilePhoto();
@@ -108,6 +117,10 @@ public class Profile extends JFrame {
             case "friends":
                 FriendManagementFrame window=new FriendManagementFrame(this.email);
                 window.setVisible(true);
+                break;
+            case "newsfeed":
+                newsfeed news=new newsfeed(this.email);
+                news.setVisible(true);
                 break;
         }
     }

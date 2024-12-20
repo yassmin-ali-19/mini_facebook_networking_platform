@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class userDatabase implements DataBase<User> {
     File file;
 
-    public userDatabase(File file) {
+    public userDatabase (File file) {
         this.file = file;
     }
 
